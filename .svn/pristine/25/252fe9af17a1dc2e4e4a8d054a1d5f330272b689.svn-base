@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	  #header{
+    	  height: 50px;
+    	  background: blue;
+    	  color: white;
+    	  font-size:22px;
+    	  line-height: 50px;
+    	  text-align: center;
+    	  opacity: 0.2; 
+    	}
+     div input,textarea{
+    	   height: 40px;
+    	   font-size: 20px;
+    	   line-height: 40px;
+    	   text-indent: 30px;
+    	   border: solid 1px;
+    	   margin-top: 23px;
+    	   margin-left: 20px;
+    	   margin-right: 20px;
+    	   opacity: 0.2;
+    	   width: 300px;
+    	}
+     .con{
+           text-align: center;
+           overflow: scroll;
+     }
+     #maintext{
+       height:300px;
+       vertical-align: top;
+       overflow: scroll;
+     }
+     #on{
+       text-align: center;
+       border-radius: 3px; 
+     }
+     .img{
+        position: relative;
+        
+        margin-top: 30px;
+        text-align: center;
+     }
+     .pstimg{
+        position: absolute;
+        top: -10px;
+        left: 20px;
+     }
+     .color{
+         opacity: 1;
+         width: 270px;
+         height: 400px;
+
+      }
+    </style>
+</head>
+<body>
+	<div id="wapper" >
+	    <div id="header"  v-on:click="back" >返回</div>
+	    <div class="con" ><input  type="text"  placeholder="title" v-model="title" /></div>
+	    <div class="con" ><textarea  id="maintext" type="text" placeholder="maintext" v-model="maintext" ></textarea></div>
+	    <div class="img" ><img  v-bind:src="src0"  class="color"  v-on:click="choosepic(0)" />
+	    <img  v-if="src0con"  src="../image/deletepic.png"  class="pstimg"  v-on:click="canclepic(0)" />
+	    </div>
+	    <div  v-if="src0con" class="img" ><img  v-bind:src="src1"  class="color"  v-on:click="choosepic(1)" />
+	    <img  v-if="src1con" src="../image/deletepic.png"  class="pstimg"  v-on:click="canclepic(1)" />
+	    </div>
+	    <div  v-if="src1con" class="img"  ><img    v-bind:src="src2"  class="color"  v-on:click="choosepic(2)" />
+	    <img  v-if="src2con" src="../image/deletepic.png"  class="pstimg"  v-on:click="canclepic(2)" />
+	    </div>
+	    <div  v-if="src2con" class="img" ><img  v-bind:src="src3"  class="color" v-on:click="choosepic(3)" />
+	    <img  v-if="src3con" src="../image/deletepic.png"  class="pstimg" v-on:click="canclepic(3)" />
+	    </div>
+	    <div   v-if="src3con" class="img"><img   v-bind:src="src4"  class="color"  v-on:click="choosepic(4)" />
+	    <img  v-if="src4con" src="../image/deletepic.png"  class="pstimg" v-on:click="canclepic(4)" />
+	    </div>
+	    <div class="con" ><input id="on" type="button" value="submit"  v-on:click="submit" /></div>
+	</div>
+	
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+		var wapper = new Vue({
+		     el:"#wapper",
+		     data:{
+		       title:"",
+		       maintext:"",
+		       src0:"../image/addpic.png",
+		       src1:"../image/addpic.png",
+		       src2:"../image/addpic.png",
+		       src3:"../image/addpic.png",
+		       src4:"../image/addpic.png",
+		       src0con:false,
+		       src1con:false,
+		       src2con:false,
+		       src3con:false,
+		       src4con:false,
+		     },
+		     methods:{
+		       back:function(){
+		          api.closeWin({
+                    name:"secondon"
+                  });
+		           
+		        },
+		        submit:function(){
+		        
+		        },
+		   choosepic:function(index){
+               api.confirm({
+               title:"提示",
+               msg:"您想从哪里获取图片？",
+               buttons:["拍照","相册",'取消']
+               },function(ret,err){
+               	//coding...
+               	if(3==ret.buttonIndex)
+               	  {
+               	  return;
+               	    };
+              var sourceType ="album";
+              if(1==ret.buttonIndex)
+              {
+                 sourceType="camera";
+              }; 
+              api.getPicture({
+                sourceType:sourceType,
+                encodingType:"jpg",
+                mediaValue:"pic",
+                saveToPhotoAlbum: true
+              },function(ret,err){
+              	//coding...
+              	if(ret){
+              	alert(ret.data=="");
+              	if(ret.data==""){
+              	  return;
+              	}
+              	var tempiccon = 'src'+index+'con';
+              	var tempic = 'src'+index; 
+              	wapper[tempic]=ret.data;
+              	if(index==4)
+              	{
+              	   wapper.src4con=true; 
+              	   return;
+              	}
+              	wapper[tempiccon] = true;
+              	  // alert(ret.data==0);
+              	};
+              }); 	 
+               	    
+               });
+         
+         }, 
+           //上面都是取照片  
+           canclepic:function(index){
+              	if(index==4)
+              	{
+             	wapper.src4="../image/addpic.png";
+             	wapper.src4con=false;
+              	};
+              	if(index==3){
+              	  wapper.src3=wapper.src4;
+              	  wapper.src4="../image/addpic.png";
+              	  if(wapper.src4con){wapper.src4con=false;return;};
+              	                	  wapper.src3con=false;
+              	};
+              	if(index==2){
+              	wapper.src2=wapper.src3;
+              	wapper.src3=wapper.src4;
+              	wapper.src4="../image/addpic.png";
+              	if(wapper.src4con){wapper.src4con=false;return;};
+                if(wapper.src3con){wapper.src3con=false; return; };
+                 if(wapper.src2con){wapper.src2con=false; return; };
+              	};
+              	if(index==1){
+              	 wapper.src1=wapper.src2;
+              	 wapper.src2=wapper.src3;
+              	 wapper.src3=wapper.src4;
+              	 wapper.src4="../image/addpic.png";
+              	 if(wapper.src4con){wapper.src4con=false;return;};
+              	 if(wapper.src3con){wapper.src3con=false;return; };
+              	 if(wapper.src2con){wapper.src2con=false;return; };
+              	 if(wapper.src1con){wapper.src1con=false;return; }; 
+              	};
+              	if(index==0)
+              	{
+              	   wapper.src0=wapper.src1;
+              	   wapper.src1=wapper.src2;
+              	   wapper.src2=wapper.src3;
+              	   wapper.src3=wapper.src4;
+           	       wapper.src4="../image/addpic.png";
+              	   if(wapper.src4con){wapper.src4con=false;return;};
+              	   if(wapper.src3con){wapper.src3con=false;return; };
+              	   if(wapper.src2con){wapper.src2con=false;return; };
+              	   if(wapper.src1con){wapper.src1con=false;return; };
+              	   if(wapper.src0con){wapper.src0con=false;return; };
+              	};
+   	         },
+           //上面是取消照片
+           
+		     }
+		   
+		
+		})
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	};
+</script>
+</html>

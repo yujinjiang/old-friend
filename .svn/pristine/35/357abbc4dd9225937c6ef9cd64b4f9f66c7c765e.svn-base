@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	
+    	
+   .concir{
+      
+     animation:circle 1s infinite linear;/*匀速 循环*/
+   } 	
+    	
+    @keyframes circle{
+
+       0% { transform:rotate(0deg);}
+
+      100%  { transform:rotate(-360deg) }
+ 
+  }
+    </style>
+</head>
+<body>
+<div  id="wapper" >  
+	<div>返回 </div>
+	<h1>asdasdasd</h1>
+	<h1>sadsadsad</h1>
+	<h1>dasdsadasdas</h1>
+	<input type="text" v-model="title" />
+	<input type="text" v-model="name" />
+	<textarea v-model="maintext" ></textarea>
+	<img src="../image/action.png"   id="becontrol"  v-bind:class="{concir:move}"  />
+	<img  src="../image/action.png" id="control" v-on:click="click" />
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script  type="text/javascript" src="../script/jquery-2.0.0.min.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+		
+    var audio = api.require('audio');	
+		
+	 var passdata = api.pageParam;	
+	alert(JSON.stringify(passdata));
+	var path = "http://www.abccome.xyz/vue/"+passdata.values.location;
+	alert(path);
+	var flag = 0;
+		
+		var wapper = new Vue({
+		  el:"#wapper",
+		  data:{
+		    title:"",
+		    maintext:"",
+		    move:false,
+		    name:""
+		  },
+		  methods:{
+		   click:function(){
+		       flag++;
+		      if(flag%2==1) 
+		      { 
+		     wapper.move=true;
+		     
+		     //播放音乐 
+		     /*
+					     audio.play({
+							    path: "http://www.abccome.xyz/vue/"+passdata.values.location
+							}, function(ret, err) {
+							    if (ret) {
+							   //     alert(JSON.stringify(ret));
+							    } else {
+							        alert(JSON.stringify(err));
+							    }
+							});  
+					*/		
+			  //播放音乐 
+			  
+			   wapper.move=true;
+			   alert(wapper.move);
+		      };
+		     if(flag%2==0)
+		     {
+		       wapper.move = false;
+		        audio.pause();
+		     };	  
+		   },
+		   
+		   
+		   
+		  }
+		}); 
+		
+	
+	
+	//这里第一次  改变  各种属性的值
+	wapper.name = passdata.values.name;
+	wapper.title = passdata.values.title;
+	wapper.maintext = passdata.values.maintext;
+	
+	
+	
+		
+		
+		
+		
+	};
+</script>
+</html>

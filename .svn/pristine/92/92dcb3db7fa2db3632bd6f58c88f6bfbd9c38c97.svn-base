@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    </style>
+</head>
+<body>
+<div id="wapper" >
+     <h1>二手交易平台</h1>
+	 <div  v-on:click="show" >弹出sidemenu</div> 
+</div>
+	 
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript"  src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+		var sideMenu = api.require('sideMenu');
+		
+		
+		
+		var wapper = new Vue({
+		   el:"#wapper",
+		   data:{
+		  
+		   },
+		   methods:{
+		     show:function(){
+	
+		     sideMenu.show({
+				    id: 1
+				});
+		     },
+		    
+		   }
+		   
+		   
+		});
+		  sideMenu.open({
+		    trajectoryColor: '#3F9FEA',
+		    btnArray: [{
+		        title: '发布',
+		        'icon': 'widget://res/center/0.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }, {
+		        title: '查看',
+		        'icon': 'widget://res/center/1.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }, {
+		        title: '返回',
+		        'icon': 'widget://res/center/2.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }, {
+		        title: '隐退',
+		        'icon': 'widget://res/center/3.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }],
+		    clickHide:false,
+		}, function(ret, err) {
+		    if (ret) {
+		     //  alert(JSON.stringify(ret));
+		        
+		        if(ret.index==undefined||ret.index=='3')
+		        {
+		           sideMenu.hidden({
+	                   id:1
+                   });
+		        };
+		        if(ret.index=='0')
+		        {
+		          api.openWin({
+	                  name: 'secondon',
+	                  url: '../framehtml/secondon.html'
+                  });
+		          
+		        }
+		        
+		    } else {
+		        alert(JSON.stringify(err));
+		    }
+		});	
+		
+		
+		
+		
+		
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+	};
+</script>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	
+    	
+    	input{
+    	  width: 300px;
+    	  height: 40px;
+    	  border:1px solid;
+    	  border-color:green;
+    	  border-radius: 9px;
+    	  font-size:26px;
+    	  line-height:40px;
+    	  text-align: center;
+    	}
+    	textarea{
+    	 font-size:26px;
+    	 width: 300px;
+    	 height: 200px;
+    	 border:1px solid;
+    	 border-color:green;
+    	 text-indent:20px;
+    	 border-radius: 9px;
+    	}
+    	.header{
+    	  margin:0px;
+    	  height: 50px;
+    	  background: green;
+    	  color: white;
+    	  font-size:22px;
+    	  line-height: 50px;
+    	  text-align: center; 
+    	  opacity: 0.5;
+    	}
+    	
+    	div{
+    	 margin-top:10px;
+    	 text-align: center;
+    	}
+    	
+   .concir{   
+     animation:circle 1s infinite linear;/*匀速 循环*/
+   } 	
+    	
+    @keyframes circle{
+       0% { transform:rotate(0deg);}
+      100%  { transform:rotate(-360deg) }
+  }
+    </style>
+</head>
+<body>
+<div  id="wapper" >  
+	<div  v-on:click="back"   class="header" >返回 </div>
+
+<div><input type="text" v-model="title"  readonly="readonly" /></div>
+<div><input type="text" v-model="name" readonly="readonly" /></div>
+<div><textarea v-model="maintext"  readonly="readonly" ></textarea></div></div>
+<img src="../image/action.png"   id="becontrol"  v-bind:class="{concir:move}"  />
+<img  src="../image/action.png" id="control" v-on:click="click" />	
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script  type="text/javascript" src="../script/jquery-2.0.0.min.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+		
+    var audio = api.require('audio');
+    
+    
+    
+		var fs = api.require('fs');
+		
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    	
+	var downloadManager = api.require('downloadManager');	
+	 var passdata = api.pageParam;	
+	alert(JSON.stringify(passdata));
+	var path = "http://www.abccome.xyz/vue/"+passdata.values.location;
+	alert(path);
+	var flag = 0;
+		
+		var wapper = new Vue({
+		  el:"#wapper",
+		  data:{
+		    title:"",
+		    maintext:"",
+		    move:false,
+		    name:""
+		  },
+		  methods:{
+		  back:function(){
+		    api.closeWin({
+             name:"getmusicdetail"
+            });
+		  },
+		   click:function(){
+		       flag++;
+		       alert(123);
+		      if(flag%2==1) 
+		      { 
+		     wapper.move=true;
+		     
+		     //播放音乐 
+		     
+					     audio.play({
+							    path: "http://www.abccome.xyz/vue/"+passdata.values.location
+							}, function(ret, err) {
+							    if (ret) {
+							   //     alert(JSON.stringify(ret));
+							    } else {
+							        alert(JSON.stringify(err));
+							    }
+							});  
+			  //播放音乐 
+			  
+			   wapper.move=true;
+			//   alert(wapper.move);
+		      };
+		     if(flag%2==0)
+		     {
+		       wapper.move = false;
+		        audio.pause();
+		     };	  
+		   },
+		  
+		   
+		   
+		   
+		  }
+		}); 
+		
+	
+	
+	//这里第一次  改变  各种属性的值
+	wapper.name = passdata.values.name;
+	wapper.title = passdata.values.title;
+	wapper.maintext = passdata.values.maintext;
+	
+	
+	
+		
+		
+		
+		
+	};
+</script>
+</html>

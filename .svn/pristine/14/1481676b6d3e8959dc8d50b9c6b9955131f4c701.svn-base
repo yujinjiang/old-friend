@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    </style>
+</head>
+<body>
+	sadadadasdsadas
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	var NVTabBar = api.require('NVTabBar');
+NVTabBar.open({
+    styles: {
+        bg: '#fff',
+        h: 50,
+        dividingLine: {
+            width: 0.5,
+            color: '#000'
+        },
+        badge: {
+            bgColor: '#ff0',
+            numColor: '#fff',
+            size: 6.0,
+            fontSize:10 //数字类型,设置徽章字体大小,默认10。注意:仅支持iOS。
+        }
+    },
+    items: [{
+        w: api.winWidth / 3.0,
+        bg: {
+            marginB: 0,
+            image: 'rgba(0,0,0,0)'
+        },
+        iconRect: {
+            w: 25.0,
+            h: 25.0,
+        },
+        icon: {
+            normal: 'widget://image/first.jpg',
+            highlight: '',
+            selected: 'widget://image/firsts.jpg'
+        },
+        title: {
+            text: '首页',
+            size: 12.0,
+            normal: '#696969',
+            selected: '#0000FF',
+            marginB: 6.0
+        }
+    }, {
+        w: api.winWidth / 3.0,
+        bg: {
+            marginB: 0,
+            image: 'rgba(0,0,0,0)'
+        },
+        iconRect: {
+            w: 25.0,
+            h: 25.0,
+        },
+        icon: {
+            normal: 'widget://image/mes.jpg',
+            highlight: '',
+            selected: 'widget://image/mess.jpg'
+        },
+        title: {
+            text: '消息',
+            size: 12.0,
+            normal: '#696969',
+            selected: '#0000FF',
+            marginB: 6.0
+        }
+    }, {
+        w: api.winWidth / 3.0,
+        bg: {
+            marginB: 0,
+            image: 'rgba(0,0,0,0)'
+        },
+        iconRect: {
+            w: 25.0,
+            h: 25.0,
+        },
+        icon: {
+            normal: 'widget://image/uer.jpg',
+            highlight: '',
+            selected: 'widget://image/users.jpg'
+        },
+        title: {
+            text: '个人中心',
+            size: 12.0,
+            normal: '#696969',
+            selected: '#0000FF',
+            marginB: 6.0
+        }
+    }],
+    selectedIndex: 0
+}, function(ret, err) {
+    if (ret) {
+     //   alert(JSON.stringify(ret));
+     
+     if(ret.index==2)
+     {
+        api.openFrame({
+	        name: 'userhome',
+	        url: '../framehtml/userhome.html',
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:'auto',
+		        h:api.winHeight-50,
+	        },  
+        });
+         
+     }
+     
+    }
+});
+	
+	};
+</script>
+</html>

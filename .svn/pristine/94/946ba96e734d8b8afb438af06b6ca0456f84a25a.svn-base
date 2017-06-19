@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    </style>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+			
+			var coverFlow = api.require('coverFlow');
+		    coverFlow.open({
+		    x: 0,
+		    y: 0,
+		    w: api.winWidth,
+		    h: 300,
+		    bgColor: '#ADD8E6',
+		    paths: [
+		        'widget://image/anouce.png',
+		        'widget://image/happyorside.png',
+		        'widget://image/muice.png',
+		        'widget://image/secondtrip.png',
+		        'widget://image/first.jpg',
+		        'widget://image/first.jpg'
+		    ],
+		    reflact:true,
+		    fixedOn:  api.first,
+		}, function(ret, err) {
+		    if (ret) {
+		      //  alert(JSON.stringify(ret));
+		    } else {
+		        alert(JSON.stringify(err));
+		    }
+		});
+		
+		
+	
+		/*
+		
+		
+		var UICoverFlow = api.require('UICoverFlow');
+		UICoverFlow.open({
+		    rect: {
+		        x: 0,
+		        y: 60,
+		        w: api.winWidth,
+		        h: 480
+		    },
+		    styles: {
+		        bg: '#fff',
+		        image: {
+		            activeW: 300,
+		            activeH: 400,
+		            corner: 2,
+		         //   placeholder: 'widget://placeholder.png'
+		        }
+		
+		    },
+		    images: [{
+		        url:  'widget://image/first.jpg'
+
+		    }, {
+		        url:  'widget://image/first.jpg'
+		    }, {
+		        url: 'widget://image/first.jpg'
+		    }, {
+		        url: 'widget://image/first.jpg'
+		    },{
+		       url: 'widget://image/first.jpg'
+		    },
+		    {
+		       url: 'widget://image/first.jpg'
+		    }
+		    ],
+		    index: 0,
+		    interval: 2000,
+		    fixedOn: api.first,
+		    fixed: false
+		}, function(ret, err) {
+		    if (ret) {
+		        alert(JSON.stringify(ret));
+		    } else {
+		        alert(JSON.stringify(err));
+		    }
+		});
+		
+		
+		*/
+		
+		
+		
+		var circularMenu = api.require('circularMenu');
+		   circularMenu.open({
+		    items: [{
+		        normal: 'widget://image/first.jpg',
+		        highlight: 'widget://image/first.jpg',
+		        title: '交友',
+		        
+		    }, {
+		        normal: 'widget://image/first.jpg',
+		        highlight:'widget://image/first.jpg',
+		        title: '兼职'
+		    }, {
+		        normal: 'widget://image/first.jpg',
+		        highlight: 'widget://image/first.jpg',
+		        title: '音乐'
+		    }, {
+		        normal: 'widget://image/first.jpg',
+		        highlight: 'widget://image/first.jpg',
+		        title: '二手'
+		    }, {
+		        normal: 'widget://image/first.jpg',
+		        highlight: 'widget://image/first.jpg',
+		        title: '通知'
+		    }, {
+		        normal: 'widget://image/first.jpg',
+		        highlight:'widget://image/first.jpg',
+		        title: '动态'
+		    }],
+		    radius:100,
+		    centerX: api.frameWidth / 2,
+		    centerY: 420,
+		    centerBtnImg: 'widget://image/first.jpg',
+		    fixedOn: api.first
+		}, function(ret, err) {
+		    if (ret) {
+		    alert(ret.index);
+		    
+		    //打开页面1
+		      if(ret.index=='1'){
+		        api.openWin({
+	                name: 'partwork',
+	                url: '../framehtml/partwork.html',
+	                bounces:false
+                });
+		      };
+		     // 打开不同的页面 3
+		   if(ret.index=='3')
+		   {
+		       api.openWin({
+	               name: 'secondtrip',
+	               url: '../framehtml/secondtrip.html'
+               });
+		   };   
+		    //打开不同的页面  
+		     if(ret.index=='2')
+		     {
+		       api.openWin({
+	               name: 'music',
+	               url: '../framehtml/music.html'
+               });
+		     }; 
+		      
+		    } else {
+		        alert(JSON.stringify(err));
+		    }
+		});
+		
+		
+		
+	};
+</script>
+</html>

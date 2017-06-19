@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	#wappers{
+    	background:blue;
+    	  height:50px;
+    	  line-height:50px;
+    	  text-align:center;
+    	  font-size: 22px;
+    	  color:white;
+    	}
+    	.jump{
+            background:gray;
+            height: 40px;
+            border:solid 1px;
+            margin-top:20px;
+            text-align:center;
+            border-radius:5px;
+            font-size: 20px;
+            line-height: 40px;
+            color: white; 
+            opacity: 0.3;       	
+     	}
+    </style>
+</head>
+<body>
+   <div id="wapper" >
+   <div id="wappers" >个人中心</div>
+	<div class="jump" v-on:click="gotoload" >登陆/注册</div>
+	<div class="jump"  v-on:click="gotochange" >修改密码</div>
+	<div class="jump" v-on:click="gotous" >关于我们</div> 
+   </div>
+	
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+       
+       var wapper = new Vue({
+         el:"#wapper",
+         data:{
+            
+         },
+         methods:{
+           gotous:function(){
+              api.openWin({
+	              name: 'aboutus',
+	              url: '../framehtml/aboutus.html'
+              });
+           },
+           gotoload:function(){
+             api.openWin({
+	             name: 'load',
+	             url: '../framehtml/load.html'
+             });
+           },
+           gotochange:function(){
+             api.openWin({
+	             name: 'sign',
+	             url: '../framehtml/changepas.html'
+             });
+           }
+         }
+       });
+	};
+</script>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		color:#808080;
+    		text-align: center;
+    	}
+    	#header{
+    	  height: 50px;
+    	  background: blue;
+    	  color: white;
+    	  font-size:22px;
+    	  line-height: 50px;
+    	  text-align: center; 
+    	}
+    	input{
+    	   height: 40px;
+    	   font-size: 20px;
+    	   line-height: 40px;
+    	   text-indent: 30px;
+    	   border: solid 1px;
+    	   margin-top: 23px;
+    	   margin-left: 20px;
+    	   margin-right: 20px;
+    	   opacity: 0.2;
+    	}
+    	.dvd{
+    	   margin-top: 70px;
+    	}
+    	lay{
+    	  background: blue;
+    	  height: 40px;
+    	}
+    	button{
+    	width:280px;
+    	  background: blue;
+    	  height: 40px;
+    	  border:1px solid;
+    	  box-shadow: 5px 5px 3px #888888;
+    	  margin-top: 23px;
+    	  border-radius: 4px;
+    	  color:white;
+          font-size: 20px;
+    	}
+    	.controlColor{
+    	   background: #555D87
+    	}
+    </style>
+</head>
+<body  >
+ <div id="wapper">
+    <div id="header" v-on:click="gotoback" >返回</div>
+	<input class="dvd" type="text" placeholder="账号" />
+	<br/>
+	<input type="password" placeholder="密码" />
+	<br/>
+	<button v-bind:class="{controlColor:controlColor}"  v-on:mouseover="changeColor" v-on:mouseout="" >提交</button>
+	<br/>
+	<button>注册</button>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+		var wapper = new Vue({
+		   el:"#wapper",
+		   data:{
+		     controlColor:false
+		   },
+		   methods:{
+		     gotoback:function(){
+		       api.closeWin({
+                name:'load'
+               });
+		     },
+		     changeColor:function(){
+		       this.controlColor=true;
+           	 },
+           	 changeColor:function(){
+           	  this.controlColor=false;
+           	 }
+		   }
+		});
+	};
+</script>
+</html>

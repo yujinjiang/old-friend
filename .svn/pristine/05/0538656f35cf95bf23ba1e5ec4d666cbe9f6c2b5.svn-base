@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	#header{
+    	  height: 50px;
+    	  background: blue;
+    	  color: white;
+    	  font-size:22px;
+    	  line-height: 50px;
+    	  text-align: center; 
+    	}
+     div input,textarea{
+    	   height: 40px;
+    	   font-size: 20px;
+    	   line-height: 40px;
+    	   text-indent: 30px;
+    	   border: solid 1px;
+    	   margin-top: 23px;
+    	   margin-left: 20px;
+    	   margin-right: 20px;
+    	   opacity: 0.2;
+    	   width: 300px;
+    	}
+     .con{
+           text-align: center;
+           overflow: scroll;
+     }
+     #maintext{
+       height:300px;
+       vertical-align: top;
+       overflow: scroll;
+     }
+     #on{
+       text-align: center;
+       border-radius: 3px; 
+     }
+    </style>
+</head>
+<body>
+	<div id="wapper" >
+	    <div id="header"  v-on:click="back" >返回</div>
+	    <div class="con" ><input  type="text"  placeholder="title" v-model="title" /></div>
+	    <div class="con" ><textarea  id="maintext" type="text" placeholder="maintext" v-model="maintext" ></textarea></div>
+	    <div class="con" ><input id="on" type="button" value="submit"  v-on:click="submit" /></div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+	
+	var user = $api.getStorage("users");
+		var wapper = new Vue({
+		   el:"#wapper",
+		   data:{
+		     count:user.count,
+		     title:'',
+		     maintext:''
+		     },
+		   methods:{
+		     back:function(){
+		       api.closeWin({
+                name:'onpartwork'
+               }); 
+		     },
+		    submit:function(){
+		    
+		    
+		    if(!wapper.title||!wapper.maintext)
+		    {
+		           alert("非空");
+		           return;
+		    }
+		    
+		    var activity = api.require('UILoading');
+		    
+		   /* 
+			activity.keyFrame({
+			    rect: {
+			        w: 80,
+			        h: 100
+			    },
+			    styles: {
+			        bg: 'rgba(0,0,0,0.5)',
+			        corner: 5,
+			        interval: 50,
+			        frame: {
+			            w: 80,
+			            h: 80
+			        }
+			    }
+			}, function(ret) {
+			    alert(JSON.stringify(ret));
+			});
+		  	*/
+		  //发送请求  获取数据	
+		  
+		  	  api.ajax({
+			  url: 'http://www.abccome.xyz/vue/partjob.php',
+			    method: 'post',
+			    dataType:'text',
+			    data: {
+			            values: {
+			            title: wapper.title,
+			            count:wapper.count,
+			            maintext:wapper.maintext          
+			        }
+			       
+			    }
+			}, function(ret, err) {
+			 if(ret){alert("上传成功");
+			 	activity.closeKeyFrame({
+	               id: 1
+                  });
+                  wapper.title="";
+                  wapper.maintext="";
+			 }
+			 else{
+			   alert(err);
+			 };
+			   
+			});
+			
+		      activity.keyFrame({
+			    rect: {
+			        w: 80,
+			        h: 100
+			    },
+			    styles: {
+			        bg: 'rgba(0,0,0,0.5)',
+			        corner: 5,
+			        interval: 50,
+			        frame: {
+			            w: 80,
+			            h: 80
+			        }
+			    }
+			}, function(ret) {
+			    alert(JSON.stringify(ret));
+			});
+		 
+		  	
+		  	 	
+		      
+		   }
+	    }
+		});
+	
+	};
+</script>
+</html>

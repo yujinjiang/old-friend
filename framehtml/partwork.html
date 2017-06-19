@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    </style>
+</head>
+<body>
+<div id="wapper" >
+
+</div>
+	
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+	
+	var wapper = new Vue({
+	  el:"#wapper",
+	  methods:{
+	    show:function(){
+	       sideMenu.show({
+	         id:1,
+	         id:2,
+	         id:3,
+	         id:4
+	       });
+	    }
+	  }
+	});
+	
+		api.openFrame({
+	        name: 'partworkread',
+	        url: '../framehtml/partworkread.html',
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:"auto",
+		        h:"auto"
+	        }
+        }); 
+		 
+		/* 
+		 var sideMenu = api.require('sideMenu');
+		sideMenu.open({
+		    trajectoryColor: '#3F9FEA',
+		    clickHide:false,
+		    btnArray: [{
+		        title: '图标1',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg':'widget://image/first.jpg'
+		    }, {
+		        title: '图标2',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg': 'widget://image/first.jpg'
+		    }, {
+		        title: '图标3',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg': 'widget://image/first.jpg'
+		    }, {
+		        title: '图标4',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg':'widget://image/first.jpg'
+		    }],
+		    fixedOn: api.partworkread, 
+		}, function(ret, err) {
+		    if (ret) {
+		       alert(JSON.stringify(ret));
+		    } else {
+		     //   alert(JSON.stringify(err));
+		    }
+		});
+		
+		*/
+	};
+</script>
+</html>

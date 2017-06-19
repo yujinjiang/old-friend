@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style>
+		#con{
+			margin: 10px;
+			font-size: 24px; 
+		}
+		ul{
+			margin-bottom: 10px;
+		}
+		ul li{ 
+			margin: 5px 10px;
+			padding: 5px;
+			color: #000;
+			word-wrap: break-word;
+		}
+	</style>
+</head>
+<body>
+   
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script  type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">     
+apiready = function(){
+//  实现一个 侧滑的功能  
+			api.openSlidLayout({
+		    type: 'left',
+		    fixedPane: {
+		        name: 'win1',
+		        url: './mymain.html'
+		    },
+		    slidPane: {
+		        name: 'win2',
+		        url: './leftPane.html'
+		    }
+		}, function(ret, err) {
+		
+		});
+	};
+</script>
+</html>

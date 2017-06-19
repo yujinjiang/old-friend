@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	
+    	.header{
+    	  height: 50px;
+    	  background: green;
+    	  color: white;
+    	  font-size:22px;
+    	  line-height: 50px;
+    	  text-align: center; 
+    	  opacity: 0.5;
+    	}
+    	div{
+    	  text-align: center;
+    	}
+    	#fetch{
+    	  margin-top: 5px; 
+    	  font-size: 30px;
+    	     	}
+    	textarea{
+    	text-indent:20px;
+    	margin-top:20px;
+    	  width: 300px;
+    	  height: 400px;
+    	 border: 1px solid;
+    	 border-radius: 9px;
+    	 border-color:green;
+    	}
+    	input{
+    	text-indent:20px;
+    	  height: 40px;
+    	  width: 300px;
+    	  border: 1px solid;
+    	  border-color:green; 
+    	  border-radius: 9px;
+    	}
+    	.divider{
+    	
+    	  margin-top: 5px;
+    	 }
+    	 .onpass{ 
+    	  border: 1px solid;
+    	  height: 40px;
+    	  font-size:25px;
+    	  line-height:40px;
+    	  width: 300px;
+    	  border-radius:9px;
+    	  border-color:green;  
+    	  margin: 0px auto;
+    	 }
+    	 
+    </style>
+</head>
+<body>
+	  <div id="wapper"> 
+	  
+	   <div v-on:click="back"  class="header" >返回</div>
+	  <div v-on:click="open"  id="fetch" >取视频</div>
+	  <div class="divider" ><input type="text"  placeholder="输入歌曲名称" v-model="title" />  </div>
+      <div><textarea   v-model="maintext" placeholder="输入自己的介绍" ></textarea></div>
+      <div><div v-on:click="onload"  class="onpass" >上传到</div></div> 
+	  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript"  src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+	
+	
+	var user = {};
+	user.count = "";
+	try{
+	  var user = $api.getStorage("users");
+	}catch(error)
+	{
+	  
+	};
+	
+	if(user.count=="")
+	{
+    alert("请登录");
+	   api.closeWin({
+        name:"musicon"
+       });
+	};
+	
+	
+	
+	 var activity = api.require('UILoading');
+	
+	 var audio = api.require('audio');	
+		
+		var  flag = "";
+		
+		var wapper = new Vue({
+		   el:"#wapper",
+		   data:{
+		      src:"",
+		      title:"",
+		      maintext:"",
+		      name:""
+		   },
+		   methods:{
+		   back:function(){
+		     api.closeWin({
+              name:"musicon"
+             });
+		   },
+		      open:function(){
+				var fileBrowser = api.require('fileBrowser');
+				fileBrowser.open(function(ret, err) {
+				    if (ret) {
+				    fileBrowser.close(); 
+				    flag = ret.url;
+				    alert(flag);
+				    var mytest = /.*\.mp3/ig;
+				    var catchname = /\/.*\//ig;
+				    var result = mytest.test(flag);
+				    var name = flag.replace(catchname,"");
+				    wapper.name = name;
+			//	    alert(name);
+				    if(!result){  
+				      alert("只支持mp3格式"); 
+				      return;
+				    };
+				    wapper.src = "../image/action.png";  
+			    } else {
+				        alert(JSON.stringify(err));
+				    }
+				});
+		      },
+		      play:function(){   
+				audio.play({
+				    path: flag
+				}, function(ret, err) {
+				    if (ret) {
+				   //     alert(JSON.stringify(ret));
+				    } else {
+				        alert(JSON.stringify(err));
+				    }
+				});   
+		      },
+		      //  这里用来放置 stop 
+		      
+		      stop:function(){
+		      
+		      audio.pause();
+		      
+		      },
+		      
+		      
+		      
+		      //这里用来放置 STOP 
+		      //这里放置上传音乐
+		       onload:function(){
+		         alert("ok");
+		          api.ajax({
+				    url: 'http://www.abccome.xyz/vue/musicpass.php',
+				    method: 'post',
+				    dataType:'text',
+				    data: {
+				        values: {
+				            name: wapper.name,
+				            title:wapper.title,
+				            count:user.count,
+				            maintext:wapper.maintext
+				        },
+				        files: {
+				            file: flag
+				        }
+				    }
+				}, function(ret, err) {
+				    if (ret) {
+				       
+				       
+				       //关闭这个动态加载
+				       
+				              
+					  activity.closeKeyFrame({
+		               id: 1
+	                  });
+				       
+				       //
+				       
+				       
+				    //   alert(ret);
+				    } else {
+				        api.alert({ msg: JSON.stringify(err) });
+				    }
+				});
+				
+				         //  这里显示的意思是动态加载    这样提高用户体验
+		       activity.keyFrame({
+			    rect: {
+			        w: 80,
+			        h: 100
+			    },
+			    styles: {
+			        bg: 'rgba(0,0,0,0.5)',
+			        corner: 5,
+			        interval: 50,
+			        frame: {
+			            w: 80,
+			            h: 80
+			        }
+			    }
+			}, function(ret) {
+			    alert(JSON.stringify(ret));
+			});
+		 
+		// 这里显示的意思是动态加载    这样提高用户体验
+				
+		       }
+		      
+		      //
+		      
+		      
+		   }
+		  
+		});
+		
+	
+		
+	};
+</script>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    textarea{
+      width: 100px;
+      height:100px;
+      border: 1px solid;
+    }
+    </style>
+</head>
+<body>
+          <textarea></textarea>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+		
+		//
+		paths=[];
+		captions=[];
+		var values=api.pageParam;
+	//	alert(JSON.stringify(values));
+	//	alert(values.values.title);
+		var flag = 0;
+		for(var i=0;i<5;i++)
+		{
+		    var tempic = "pic"+i;
+		 //   alert(tempic);
+		 //   alert(values[tempic]);
+		    if(values.values[tempic]==null)
+		    {
+		 //      alert("err");
+		    }else{
+		     var tempicpath = "http://www.abccome.xyz/vue/"+values.values[tempic];
+		//     alert(tempicpath);
+		      flag++;
+		     var tempictitle = values.values.maintext;
+		      captions.push(tempictitle);
+		      paths.push(tempicpath);   
+		    } 
+		   
+		}
+		
+		
+	//	alert(JSON.stringify(paths));
+		
+		
+		
+		
+		
+		
+		
+			var UIScrollPicture = api.require('UIScrollPicture');
+			UIScrollPicture.open({
+			    rect: {
+			        x: 0,
+			        y: 0,
+			        w: api.winWidth,
+			        h: api.winHeight
+			    },
+			    data: {
+			    /*
+			        paths: [
+			            'widget://image/action.png',
+			            'widget://image/action.png',
+			            'widget://image/action.png'
+			        ],
+			        captions: ['apicloud', 'apicloud', 'apicloud']
+			     */
+			     paths:paths,
+			     captions:captions
+			       
+			    },
+			    styles: {
+			        caption: {
+			            height: 70,
+			            color: '#E0FFFF',
+			            size: 13,
+			            bgColor: '#696969',
+			            position: 'bottom'
+			        },
+			        indicator: {
+			            align: 'center',
+			            color: '#FFFFFF',
+			            activeColor: '#DA70D6'
+			        }
+			    },
+			    placeholderImg: 'widget://res/slide1.jpg',
+			    contentMode: 'scaleToFill',
+			    interval: 3,
+			    loop: true,
+			    fixed: false
+			}, function(ret, err) {
+			    if (ret) {
+			      //  alert(JSON.stringify(ret));
+			    } else {
+			        alert(JSON.stringify(err));
+			    }
+			});
+		
+		//
+		
+		
+		//这里放一个全景图片
+		
+		
+		//这里放一个全景图片
+		
+		
+		
+		
+		
+	};
+</script>
+</html>

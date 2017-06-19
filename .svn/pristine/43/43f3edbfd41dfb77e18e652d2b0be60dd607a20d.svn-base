@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    </style>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		api.openFrame({
+	        name: 'partworkread',
+	        url: '../framehtml/partworkread.html',
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:"auto",
+		        h:"auto"
+	        }
+        }); 
+		 
+		
+		var sideMenu = api.require('sideMenu');
+		sideMenu.open({
+		    trajectoryColor: '#3F9FEA',
+		    btnArray: [{
+		        title: '图标1',
+		        'icon': 'widget://image/first',
+		        'bgImg': 'widget://image/loading_more.gif'
+		    }, {
+		        title: '图标2',
+		        'icon': 'widget://image/first',
+		        'bgImg':  'widget://image/loading_more.gif'
+		    }, {
+		        title: '图标3',
+		        'icon': 'widget://image/first',
+		        'bgImg':  'widget://image/loading_more.gif'
+		    }, {
+		        title: '图标4',
+		        'icon': 'widget://image/first',
+		        'bgImg':'widget://image/loading_more.gif'
+		    }],
+		    fixedOn: api.partworkread,
+		    clikeHide:false
+		}, function(ret, err) {
+		    if (ret) {
+		        alert(JSON.stringify(ret));
+		    } else {
+		        alert(JSON.stringify(err));
+		    }
+		});
+		
+	};
+</script>
+</html>

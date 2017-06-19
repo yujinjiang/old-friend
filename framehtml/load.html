@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		color:#808080;
+    		text-align: center;
+    	}
+    	#header{
+    	  height: 50px;
+    	  background: blue;
+    	  color: white;
+    	  font-size:22px;
+    	  line-height: 50px;
+    	  text-align: center; 
+    	}
+    	input{
+    	   height: 40px;
+    	   font-size: 20px;
+    	   line-height: 40px;
+    	   text-indent: 30px;
+    	   border: solid 1px;
+    	   margin-top: 23px;
+    	   margin-left: 20px;
+    	   margin-right: 20px;
+    	   opacity: 0.2;
+    	}
+    	.dvd{
+    	   margin-top: 70px;
+    	}
+    	lay{
+    	  background: blue;
+    	  height: 40px;
+    	}
+    	button{
+    	width:280px;
+    	  background: blue;
+    	  height: 40px;
+    	  border:1px solid;
+    	  box-shadow: 5px 5px 3px #888888;
+    	  margin-top: 23px;
+    	  border-radius: 4px;
+    	  color:white;
+          font-size: 20px;
+    	}
+    	.controlColor{
+    	   background: #555D87
+    	}
+    </style>
+</head>
+<body  >
+ <div id="wapper">
+    <div id="header" v-on:click="gotoback" >返回</div>
+	<input class="dvd" type="text" placeholder="账号"  v-model="count" />
+	<br/>
+	<input type="password" placeholder="密码"  v-model="pas" />
+	<br/>
+	<button v-bind:class="{controlColor:color}"  v-on:click="submit" v-bind:disabled="dsb" >{{submits}}</button>
+	<br/>
+	<button  v-on:click="gotoSign" >注册</button>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+	
+	//测试是否 数据已经保存好
+	 try{
+	   var user = $api.getStorage('user');
+	   //  alert(user.name);
+	   if(user.count!=""&&user.password!="")
+	   {
+	       
+	   }
+	 }catch(error){};
+	 
+	 
+	 
+		var wapper = new Vue({
+		   el:"#wapper",
+		   data:{
+		     color:false,
+		     submits:"提交",
+		     dsb:false,
+		     count:'',
+		     pas:''
+		   },
+		   methods:{
+		     gotoback:function(){
+		       api.closeWin({
+                name:'load'
+               });
+		     },
+           	 gotoSign:function(){
+           	  api.openWin({
+	                 name: 'signin',
+	                 url: '../framehtml/signin.html'
+                 });
+           	 },
+           	 submit:function(){
+           	  
+           	  
+           	if(this.count==""||this.pas==""){
+		     alert("非空");
+		     return; 
+		    };
+		   
+           	  
+           	  
+           	 this.color=true;
+		     this.dsb="disabled"
+           	  
+           	    api.ajax({
+			    url: 'http://www.abccome.xyz/vue/upload.php',
+			    method: 'get',
+			    dataType:'text',
+			    data: {
+			        values: {
+			            count: wapper.count,
+			            pas:wapper.pas
+			        },
+			    }
+			}, function(ret, err){
+			    if (ret!=0) {
+			     //   alert(ret);
+			        
+			        wapper.dsb=false;
+			        alert("登陆成功");
+			        var user={};
+			        user.name=ret;
+			        user.count=wapper.count;
+			        user.pas=wapper.pas;
+			        $api.setStorage('user',user);
+			        api.closeWin({
+                      name:'load'
+                    });
+			        
+			        
+			    } else {
+			       alert("账号密码不匹配");
+			        wapper.color=false;
+			        wapper.dsb=false;
+			     //  alert(ret);
+			    }
+			});
+           	 }
+           	 
+           	 
+		   }
+		});
+		
+   
+   
+   
+			
+			   
+			   
+   
+   
+   
+   
+		
+		
+		
+	};
+</script>
+</html>

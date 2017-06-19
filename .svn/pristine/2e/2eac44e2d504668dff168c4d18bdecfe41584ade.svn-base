@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	#wappers{
+    	background:blue;
+    	  height:50px;
+    	  line-height:50px;
+    	  text-align:center;
+    	  font-size: 22px;
+    	  color:white;
+    	}
+    	.jump{
+            background:gray;
+            height: 40px;
+            border:solid 1px;
+            margin-top:20px;
+            text-align:center;
+            border-radius:5px;
+            font-size: 20px;
+            line-height: 40px;
+            color: white; 
+            opacity: 0.3;       	
+     	}
+     	.user{
+     	   text-align: center;
+     	   margin-top:20px;
+     	}
+     	.showandhide{
+     	   height: 40px;
+     	   background: gray;
+     	   color:white;
+     	   border-radius: 5px;
+     	    opacity: 0.3;
+     	    font-size: 20px;
+            line-height: 40px;
+     	}
+     	img{
+     	margin:0px auto;
+     	  width:100px;
+     	  height:100px;
+     	  border: 1px solid;
+     	  
+     	}
+     	.imgControl{
+     	 text-align:center;
+     	 margin-top: 20px;
+     	   
+     	}
+    </style>
+</head>
+<body>
+   <div id="wapper" >
+   <div id="wappers" >个人中心</div>
+   <div class="imgControl"  v-show="src" ><img v-bind:src="src" /> </div>
+        <div class="user" >{{show}}</div>
+     <div  v-if="!src&&count"  class="jump" v-on:click="choosepic" >上传图片</div>
+	<div class="jump" v-on:click="gotoload"  v-if="!show" >登陆/注册</div>
+	<div class="jump"  v-on:click="gotochange" >修改密码</div>
+	<div class="jump" v-on:click="gotous" >关于我们</div> 
+   </div>
+	
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+	
+	
+	
+	 //测试    
+                
+              	    
+              	    
+              	 //测试   
+	
+	
+	
+	
+      var user={};
+	 user.count="";
+	 user.piclocate="";
+     try{ var user = $api.getStorage('users')
+        if(user.name!="underfine")
+        {
+            wapper.show=user.name;
+           //   alert(user.name);
+          // alert(user.count);
+        }
+     }
+     catch(error){
+        
+     };
+       
+     //  alert(user.piclocate);
+       
+       var wapper = new Vue({
+         el:"#wapper",
+         data:{
+           show:'',
+           welcome:'',
+           src:user.piclocate,
+           count:user.count,
+           piclocate:''
+         },
+         methods:{
+           gotous:function(){
+              api.openWin({
+	              name: 'aboutus',
+	              url: '../framehtml/aboutus.html'
+              });
+           },
+           gotoload:function(){
+             api.openWin({
+	             name: 'load',
+	             url: '../framehtml/load.html'
+             });
+           },
+           gotochange:function(){
+             api.openWin({
+	             name: 'sign',
+	             url: '../framehtml/changepas.html'
+             });
+           },
+          choosepic:function(){
+               api.confirm({
+               title:"提示",
+               msg:"您想从哪里获取图片？",
+               buttons:["拍照","相册",'取消']
+               },function(ret,err){
+               	//coding...
+               	if(3==ret.buttonIndex)
+               	  {
+               	  return;
+               	    };
+              var sourceType ="album";
+              if(1==ret.buttonIndex)
+              {
+                 sourceType="camera";
+              }; 
+              api.getPicture({
+                sourceType:sourceType,
+                encodingType:"jpg",
+                mediaValue:"pic",
+                saveToPhotoAlbum: true
+              },function(ret,err){
+              	//coding...
+              	if(ret){
+              	if(ret.data!=0||user.count!="")
+              	{ 
+              	 // alert(ret.data)
+              	    wapper.src=ret.data;
+              	  //  alert(wapper.src);
+              	   // alert(wapper.src);
+                   api.ajax({
+				    url: 'http://www.abccome.xyz/vue/up-pass.php',
+				    method: 'post',
+				    dataType:'text',
+				    data: {
+				        values: {
+				            count:user.count
+				        },
+				        files: {
+				            file: wapper.src
+				        }
+				    }
+				}, function(ret, err) {
+				    if (ret) {
+				  //     alert(ret);
+				       
+				       user.piclocate = "http://www.abccome.xyz/vue/"+ret;
+				       wapper.src=user.piclocate;
+				       alert(wapper.src);
+				       $api.setStorage('users',user);
+				       alert($api.getStorage("users").piclocate);
+				    } else {
+				        api.alert({ msg: JSON.stringify(err) });
+				    }
+				});              	
+				              	  
+              	
+              	}
+              	  // alert(ret.data==0);
+              	};
+              }); 	 
+               	    
+               });
+         
+         }
+           
+           
+         },
+ 
+         
+       });
+       
+       
+       try{ var user = $api.getStorage('user')
+        if(user.name!="underfine")
+        {
+            wapper.show="您好："+ user.name;
+           //   alert(user.name);
+        }
+     }
+     catch(error){
+        
+     };
+       
+       
+	};
+</script>
+</html>

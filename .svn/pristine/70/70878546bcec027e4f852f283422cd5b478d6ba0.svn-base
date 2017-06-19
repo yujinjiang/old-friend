@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	div{
+    	 height:50px;
+    	 background: 'blue';
+    	 opacity: 0.4;
+    	}
+    </style>
+</head>
+<body>
+	<div>返回</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+		
+		
+		
+		
+		
+		
+	
+	var Mymath = [];
+	var box={};
+    var UIListView = api.require('UIListView');
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		api.showProgress({
+	    title: '努力加载中...',
+	    text: '先喝杯茶...',
+	    modal: false
+	});
+	//这里ajax 从数据库里面获取数据
+		 api.ajax({
+		  url: 'http://www.abccome.xyz/vue/getdatafrommusic.php',
+		    method:'post',
+		    catch:true
+		}, function(ret, err) {
+		    if (ret) {
+		        var data = ret;
+		        var temdata={};
+		        var passlength= data.length;
+		        var i=0;
+		        for(var length = data.length-1;length>=0;length--)
+		        {
+		         // alert(data[length].title);
+		           temdata.uid='1001';
+		           temdata.title=data[length].title;
+		           temdata.subTitle="音乐";
+		           temdata.imgPath='';
+		           temdata.remark='详情';
+		           temdata.icon='';
+		           temdata.maintext=data[length].maintext;
+		       //  alert(JSON.stringify(temdata));
+		           Mymath.push(temdata);
+		           temdata={};   
+		        };
+		     // alert(Mymath.length);
+		   //  alert(JSON.stringify(Mymath));
+		        api.hideProgress();
+		        
+		        
+		        //组建列表   
+		        
+		        UIListView.open({
+		    rect: {
+		        x: 0,
+		        y: 50,
+		        w: api.winWidth,
+		        h: api.frameHeight
+		    },
+		    data: Mymath,
+		    rightBtns: [{
+		        bgColor: '#388e8e',
+		        activeBgColor: '',
+		        width: 70,
+		        title: '留言',
+		        titleSize: 12,
+		        titleColor: '#fff',
+		        icon: '',
+		        iconWidth: 20
+		    }],
+		    styles: {
+		        borderColor: '#696969',
+		        item: {
+		            bgColor: '#FFFFFF',
+		            activeBgColor: '#F5F5F5',
+		            height: 70.0,
+		            imgWidth: 40,
+		            imgHeight: 40,
+		            imgCorner: 4,
+		            placeholderImg: '',
+		            titleSize: 12.0,
+		            titleColor: '#000',
+		            subTitleSize: 12.0,
+		            subTitleColor: '#000',
+		            remarkColor: '#000',
+		            remarkSize: 16,
+		            remarkIconWidth: 30
+		        }
+		    },
+		}, function(ret, err) {
+		    if (ret) {
+		    alert(JSON.stringify(ret));
+		    
+		    
+		    
+		    //这里跳转  并且直接传递数据  调到细节页面
+		    
+		       if(ret.eventType=="clickContent")
+		       api.openWin({
+	               name: 'getmusicdetail',
+	                pageParam: {
+				        values:data[passlength-1-ret.index]
+				    },
+	               url: '../framehtml/getmusicdetail.html'
+               });
+		    //这里跳转   下面的跳转  跳转到 我们留言的页面  
+		         
+		         if(ret.eventType=="clickRightBtn")
+		         {
+		          api.openWin({
+	                  name: 'leavemeassage',
+	                  url: '../framehtml/leavemessage.html',
+	                  pageParam: {
+					       count: data[0].count
+					  }
+                  });
+		           
+		         };
+		         
+		         
+		         
+		         
+		         
+		         
+		         
+		         
+		       
+		       
+		       
+		   //这里跳转 并且 传递数据    
+		       
+		    } else {
+		    //  alert(JSON.stringify(err));
+		    }
+		});
+		        
+		        
+		        
+		   //组建刷新列表     
+		        
+		UIListView.setRefreshHeader({
+			    loadingImg: 'widget://res/UIListView_arrow.png',
+			    bgColor: '#F5F5F5',
+			    textColor: '#8E8E8E',
+			    textDown: '下拉可以刷新...',
+			    textUp: '松开开始刷新...',
+			    showTime: true
+			}, function(ret, err) {
+										    if (ret) {
+										    api.ajax({
+								                url:'http://www.abccome.xyz/vue/getdatafrommusic.php'
+							                },function(ret,err){
+							                	//coding...
+							                Mymath =[];	
+											var data = ret;
+									        var temdata={};
+									        var i=0;
+									        for(var length = data.length-1;length>=0;length--)
+									        {
+									         // alert(data[length].title);
+									           temdata.uid='1001';
+									           temdata.title=data[length].title;
+									           temdata.subTitle="音乐";
+									           temdata.imgPath='';
+									           temdata.remark='详情';
+									           temdata.icon='';
+									           temdata.maintext=data[length].maintext;
+									       //  alert(JSON.stringify(temdata));
+									           Mymath.push(temdata);
+									           temdata={};   
+									        };
+													       
+													                	
+							                UIListView.reloadData({
+													    data: Mymath
+													}, function(ret) {
+													    if (ret) {
+													        alert(JSON.stringify(ret));
+													        
+													        
+													        
+													        //这里跳转  并且直接传递数据
+		    
+						       if(ret.eventType=="clickContent")
+						       api.openWin({
+					               name: 'getmusicdetail',
+					                pageParam: {
+								        title:Mymath[ret.index].title,
+								        maintext:Mymath[ret.index].maintext
+								    },
+					               url: '../framehtml/getmusicdetail.html'
+				               });
+						       
+						       
+													       
+													       
+													       
+													   //这里跳转 并且 传递数据    
+																								        
+													        
+													        
+													        
+													        
+													        
+													    } else {
+													     //   alert(JSON.stringify(err));
+													    }
+										              });              	
+							                	
+							                });
+										    
+			    
+			    /*
+			        alert(JSON.stringify(ret));
+			        UIListView.reloadData({
+					    data: Mymath
+					}, function(ret) {
+					    if (ret) {
+					        alert(JSON.stringify(ret));
+					    } else {
+					        alert(JSON.stringify(err));
+					    }
+		});   */
+			    } else {
+			      //  alert(JSON.stringify(err));
+			    }
+		});
+   
+
+		        
+		        //组建列表
+		        
+		    } else {
+		      //  api.alert({ msg: JSON.stringify(err) });
+		    }
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	};
+</script>
+</html>

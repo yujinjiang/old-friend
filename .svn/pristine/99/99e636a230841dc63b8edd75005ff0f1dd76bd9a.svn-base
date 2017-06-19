@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    	
+    	}
+    	h1,h2,h5,h6,h4{
+    	  text-align: center;
+    	  margin-top: 20px;
+    	}
+    	img{
+    	   width: 40px;
+    	   height: 40px;
+    	}
+    	#control{
+    	  text-align: center;
+    	}
+    </style>
+</head>
+<body>
+<div id="wapper" >
+	<h1>免费的兼职平台</h1>
+	<h2>发布兼职消息前必须登陆</h2>
+	<h2>找兼职看清楚要求</h2>
+	<h6>平台提示：99%收钱的兼职都是骗子</h6>
+	<h5>平台提示：99%收钱的兼职都是骗子</h5>
+	<h4>平台提示：99%收钱的兼职都是骗子</h4>
+	<h1 v-on:click="show" >tests</h1>
+  <div id="control" >	<img src="../image/action.png" /></div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script  type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+	var user = {};
+	user.count = "";	
+  try{
+       user = $api.getStorage("users");
+  }catch(error){
+      
+  }  
+		
+		 var wapper = new Vue({
+		  el:"#wapper",
+		  data:{
+		     
+		  },
+		  methods:{
+		    show:function(){
+		      sideMenu.show({
+	          id: 1
+		      });
+		  }
+		  }
+		  
+		});
+		
+
+		
+		 var sideMenu = api.require('sideMenu');
+		sideMenu.open({
+		    trajectoryColor: '#3F9FEA',
+		    clickHide:false,
+		    btnArray: [{
+		        title: '寻找兼职',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg':'widget://image/first.jpg'
+		    }, {
+		        title: '发布兼职',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg': 'widget://image/first.jpg'
+		    }, {
+		        title: '返回',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg': 'widget://image/first.jpg'
+		    }, {
+		        title: '取消',
+		        'icon': 'widget://image/first.jpg',
+		        'bgImg':'widget://image/first.jpg'
+		    }],
+		    fixedOn: api.partworkread, 
+		}, function(ret, err) {
+		    if (ret) {
+		      // alert(JSON.stringify(ret));
+		     //  alert(ret.index==undefined);
+		     // alert(ret.index);
+		     if(ret.index==3||ret.index==undefined)
+		     {
+		         sideMenu.hidden({
+	                 id:1
+                 });
+		     };
+		     if(ret.index==0)
+		     {
+		      if(user.count=="")
+		      {
+		         return;
+		      }
+		       api.openWin({
+	               name: 'onpartwork',
+	               url: '../framehtml/onpartwork.html'
+               });
+		     };
+		     if(ret.index==1)
+		     {
+		         api.openWin({
+	                 name: 'lookpartjob',
+	                 url: '../framehtml/lookpartjob.html'
+                 });
+		       
+		        
+		     };
+		     
+		     
+		    } else {
+		     //   alert(JSON.stringify(err));
+		    }
+		});
+		
+		
+		
+		
+	};
+</script>
+</html>

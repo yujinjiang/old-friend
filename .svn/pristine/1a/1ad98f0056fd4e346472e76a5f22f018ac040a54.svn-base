@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		text-align: center;
+    	}
+    	h1{
+    	 margin-top: 100px;
+    	}
+    	img{
+    	  margin-top:140px;
+    	  width: 70px;
+    	  height: 70px;
+    	}
+    </style>
+</head>
+<body>
+	<div id="wapper" >
+     <h1>音乐平台</h1>
+	 <img  src="../image/palycolor.png"  v-on:click="show"  v-if="shows"  />
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js" ></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+		var sideMenu = api.require('sideMenu');
+		
+		
+		
+		var wapper = new Vue({
+		   el:"#wapper",
+		   data:{
+		     shows:true
+		   },
+		   methods:{
+		     show:function(){
+	     
+	        wapper.shows=false;
+		     sideMenu.show({
+				    id: 1
+				});
+		     },
+		    
+		   }
+		   
+		   
+		});
+		  sideMenu.open({
+		    trajectoryColor: '#3F9FEA',
+		    btnArray: [{
+		        title: '发布',
+		        'icon': 'widget://image/write.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }, {
+		        title: '查看',
+		        'icon': 'widget://image/search.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }, {
+		        title: '返回',
+		        'icon': 'widget://image/back.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }, {
+		        title: '隐退',
+		        'icon': 'widget://image/yintui.png',
+		        'bgImg': 'widget://res/sideMenu/bg.png'
+		    }],
+		    clickHide:false,
+		}, function(ret, err) {
+		    if (ret) {
+		     //  alert(JSON.stringify(ret));
+		        
+		        if(ret.index==undefined||ret.index=='3')
+		        {
+		          
+		          wapper.shows=true;
+		          
+		           sideMenu.hidden({
+	                   id:1
+                   });
+		        };
+		        if(ret.index=='0')
+		        {
+		          api.openWin({
+	                  name: 'musicon',
+	                  url: '../framehtml/musicon.html'
+                  });
+		        };
+		        
+		        if(ret.index=="1")
+		        {
+		          api.openWin({
+	                  name: 'getmusic',
+	                  url: '../framehtml/getmusic.html'
+                  });
+		          
+		        };
+		        
+		        if(ret.index=="2")
+		        {
+		          
+		           api.closeWin({
+                   
+                    name:"music" 
+                     
+                    });
+		        };
+		        
+		        
+		    } else {
+		        alert(JSON.stringify(err));
+		    }
+		});	
+		
+		
+		
+		
+		
+				
+		
+				
+		
+		
+		
+		
+		
+		
+	};
+</script>
+</html>
